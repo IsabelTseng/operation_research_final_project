@@ -5,8 +5,8 @@ for i in range(1,20):
     person['id'] = i
     person['enter_floor'] = random.randint(1,12)      
     person['exit_floor'] = random.randint(1,12)
-    person['time_quantum'] = random.randint(1,50)
-    person['intime'] = random.randint(1,40)
+    person['time_quantum'] = random.randint(30,60)
+    person['intime'] = random.randint(1,61)
     Input.append(person)
 
 def scan_edf(Input):
@@ -45,7 +45,7 @@ def scan_edf(Input):
             if(person['id']==current_task):
                 current_time=person['intime']+diff*2+(abs(person['exit_floor']-person['enter_floor']))*2+2*8  
                 waiting_time=current_time-person['intime']
-                bias=current_time-person['time_limit']
+                bias=person['time_limit']-current_time
                 direction=person['direction']
                 current_min=9999
                 new_Input.remove(person)
