@@ -5,19 +5,21 @@ def look(input_data, args):
     passenger2 = []
     passenger3 = []
 
-    for i in range(len(input_data) - 1, -1, -1):
-        if input_data[i]['direction'] == args['direction']:
-            if sign(input_data[i][args['target']] - args['current_floor']) == args['direction']:
-                passenger1.append(input_data[i])
-                input_data.pop(i)
+    newInput = Input.copy()
+    for i in range(len(newInput)):
+        person = newInput[len(Input)-i-1]
+        if person['direction'] == args['direction'] :
+            if sign(person[args['target']] - args['current_floor']) == args['direction']: 
+                passenger1.append(person)
+                newInput.remove(person)
             else:
-                passenger3.append(input_data[i])
-                input_data.pop(i)
+                passenger3.append(person)
+                newInput.remove(person)
 
-    passenger1 = sorted(passenger1, key = lambda x : x[args['target']], reverse = (args['direction'] == -1))
-    passenger3 = sorted(passenger3, key = lambda x : x[args['target']], reverse = (args['direction'] == -1))
-    passenger2 = sorted(input_data, key = lambda x : x[args['target']], reverse = (args['direction'] == 1))
-
-    Output = passenger1 + passenger2 + passenger3
-
-    return Output
+    passenger1=sorted(passenger1, key = lambda x : x[args['target']], reverse = (args['direction'] == -1)) 
+    passenger3=sorted(passenger3, key = lambda x : x[args['target']], reverse = (args['direction'] == -1)) 
+    passenger2=sorted(newInput, key = lambda x : x[args['target']],reverse = (args['direction'] == 1))
+    
+    Output = passenger1 + passenger2 + passenger3 
+    
+    return Output.copy()
