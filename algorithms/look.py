@@ -1,6 +1,6 @@
 sign = lambda x: [1, -1][x < 0]
 
-def look(Input,args):
+def look(input_data, args):
     passenger1 = []
     passenger2 = []
     passenger3 = []
@@ -22,4 +22,4 @@ def look(Input,args):
     
     Output = passenger1 + passenger2 + passenger3 
     
-    return Output.copy()       
+    return Output.copy()

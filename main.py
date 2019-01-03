@@ -1,11 +1,10 @@
-import input_generator as gen
-#import algorithms.scan_edf
-import analytics as aly
+from utils.input_generator import get_input
+from utils.elevator import Elevator
+from algorithms.look import look
+from algorithms.scan_edf import scan_edf
+import utils.analytics as aly
 
-for i in range(10):
-    input = gen.get_input()
-    count = [0 for i in range(3600 // 5)]
-    for x in input:
-        count[(x['timestamp'] // 5) - 1] += 1
-
-    aly.get_histogram(count, title = 'request per 5 seconds', xlabel = 'request', ylabel = 'count', filename = f'{ i + 1 }')
+input_data = get_input()
+elevator1 = Elevator(scan_edf)
+elevator1.serve(input_data)
+print(elevator1.output_data)
