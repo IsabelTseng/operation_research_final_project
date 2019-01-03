@@ -7,7 +7,7 @@ def gen():
     time = 0
 
     #1~1800 seconds
-    sample = np.random.poisson(0.36, size=1800)
+    sample = np.random.poisson(0.18, size=1800)
     noise = np.random.poisson(0.0167, size=1800)
     floor = [1,2,3,4,5,6,7,8,9,10,11,12]
     for i in sample:
@@ -38,7 +38,7 @@ def gen():
                 }
                 output.append(data)     
     #1801~3600 seconds
-    sample = np.random.poisson(0.36, size=1800)
+    sample = np.random.poisson(0.18, size=1800)
     noise = np.random.poisson(0.0167, size=1800)
     for i in sample:
         time = time + 1
