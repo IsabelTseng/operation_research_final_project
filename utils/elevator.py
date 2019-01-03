@@ -3,6 +3,9 @@ sign = lambda x: [1, -1][x < 0]
 
 class Elevator():
     def __init__(self, algorithm):
+        self.sort = algorithm
+
+    def initialize(self):
         self.current_time = 0
         self.floor = 1
         self.target_floor = 1
@@ -10,11 +13,11 @@ class Elevator():
         self.direction = 0
         self.passengers = []
         self.requests = []
-        self.sort = algorithm
         self.input_data = []
         self.output_data = []
 
     def serve(self, input_data):
+        self.initialize()
         self.input_data = input_data.copy()
         while len(self.output_data) < len(input_data):
             if self.state == 'idle':
