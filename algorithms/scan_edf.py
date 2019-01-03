@@ -5,12 +5,10 @@ def scan_edf(Input,args):
     Output=[]
     request=0
 
-
     for person in Input:
         newperson = person.copy()
         newperson['time_limit'] = newperson['timestamp'] + newperson['time_quantum']
         new_Input.append(newperson)
-
 
     while len(new_Input) > 0:
         for person in new_Input:
@@ -27,7 +25,6 @@ def scan_edf(Input,args):
             if person['id'] == request :
                 Output.append(person)
                 new_Input.remove(person)
-
 
     return Output.copy()
 
