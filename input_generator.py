@@ -20,7 +20,8 @@ def gen():
                     'enter_floor':np.random.randint(2,13),
                     'exit_floor':1,
                     'time_quantum':np.random.randint(60,301),
-                    'timestamp':time
+                    'timestamp':time,
+                    'direction':-1
                 }
                 output.append(data)
         if noise[time-1]!=0:
@@ -32,7 +33,8 @@ def gen():
                     'enter_floor':path[0],
                     'exit_floor':path[1],
                     'time_quantum':np.random.randint(60,301),
-                    'timestamp':time
+                    'timestamp':time,
+                    'direction':np.sign(path[1]-path[0])
                 }
                 output.append(data)     
     #1801~3600 seconds
@@ -48,7 +50,8 @@ def gen():
                     'enter_floor':1,
                     'exit_floor':np.random.randint(2,13),
                     'time_quantum':np.random.randint(60,301),
-                    'intime':time
+                    'timestamp':time,
+                    'direction':1
                 }
                 output.append(data)
         if noise[time-1801]!=0:
@@ -60,7 +63,8 @@ def gen():
                     'enter_floor':path[0],
                     'exit_floor':path[1],
                     'time_quantum':np.random.randint(60,301),
-                    'timestamp':time
+                    'timestamp':time,
+                    'direction':np.sign(path[1]-path[0])
                 }
                 output.append(data)
     print(total)
