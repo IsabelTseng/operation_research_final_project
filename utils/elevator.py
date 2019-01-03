@@ -17,19 +17,6 @@ class Elevator():
     def serve(self, input_data):
         self.input_data = input_data.copy()
         while len(self.output_data) < len(input_data):
-            print(f'Second { self.current_time }:')
-            print(f'\tElevator is at floor { self.floor }, target floor = { self.target_floor }, state is { self.state }')
-            print(f'\t{ len(self.passengers) } is in elevator, { len(self.requests) } is waiting')
-            """
-            print('\tPassenger:')
-            for x in self.passengers:
-                print(x)
-            print('\tRequest:')
-            for x in self.requests:
-                print(x)
-            """
-            print()
-
             if self.state == 'idle':
                 # If no one in elevator
                 if len(self.passengers) == 0:
@@ -77,7 +64,6 @@ class Elevator():
                                     'current_floor': self.floor,
                                     'direction': self.direction,
                                 })[0]
-                            print(f'Tartget = { target }')
                             self.target_floor = target['exit_floor'] if target['id'] == self.passengers[0]['id'] else target['enter_floor']
                             self.direction = self.set_direction(self.target_floor - self.floor)
                             self.change_state('move')
@@ -114,7 +100,7 @@ class Elevator():
             if self.passengers[i]['exit_floor'] == self.floor:
                 self.output_data.append({
                     'id': self.passengers[i]['id'],
-                    'wating_time': self.current_time - self.passengers[i]['timestamp'],
+                    'waiting_time': self.current_time - self.passengers[i]['timestamp'],
                     'bias': self.passengers[i]['time_quantum'] - (self.current_time - self.passengers[i]['timestamp'])
                 })
                 self.passengers.pop(i)
