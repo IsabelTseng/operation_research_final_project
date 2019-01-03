@@ -1,0 +1,8 @@
+# image
+image/*.*
+
+# text file
+*.txt
+
+# cache folder
+__pycache__/

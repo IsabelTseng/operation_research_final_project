@@ -1,7 +1,8 @@
 from scipy.stats import poisson
 import matplotlib.pyplot as plt
 import numpy as np
-def gen():
+
+def get_input():
     output = []
     total = 0
     time = 0
