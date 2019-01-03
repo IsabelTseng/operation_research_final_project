@@ -5,6 +5,7 @@ def gen():
     output = []
     total = 0
     time = 0
+
     #1~1800 seconds
     sample = np.random.poisson(0.36, size=1800)
     noise = np.random.poisson(0.0167, size=1800)
