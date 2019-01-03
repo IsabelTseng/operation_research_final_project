@@ -5,7 +5,7 @@ def gen():
     output = []
     total = 0
     time = 0
-    
+
     #1~1800 seconds
     sample = np.random.poisson(0.36, size=1800)
     for i in sample:
@@ -35,6 +35,6 @@ def gen():
                 'intime':time
             }
             output.append(data)
-   
+
     print(total)
     return output
