@@ -71,6 +71,19 @@ look_bias_5min_list = list({ x: look_bias_list.count(x) for x in look_bias_list 
 look_bias_5min_list.reverse()
 edf_bias_5min_list = list({ x: edf_bias_list.count(x) for x in edf_bias_list }.values())
 edf_bias_5min_list.reverse()
-edf_bias_5min_list += [0] * (len(look_bias_5min_list) - len(edf_bias_5min_list))
 
-aly.get_multibarhplot(look_bias_5min_list, edf_bias_5min_list, bin_tags, 'bias')
+size_diff = len(look_bias_5min_list) - len(edf_bias_5min_list)
+if size_diff > 0:
+    edf_bias_5min_list += [0] * size_diff
+else:
+    look_bias_5min_list += [0] * size_diff
+
+aly.get_multibarhplot(
+    data1 = look_bias_5min_list,
+    data2 = edf_bias_5min_list,
+    title = 'Bias between requesting waiting time and actual waiting time',
+    xlabel = 'count',
+    ylabel = 'bias',
+    filename = 'bias_distribution',
+    bin_tags = bin_tags
+)
