@@ -80,7 +80,9 @@ else:
 
 aly.get_multibarhplot(
     data1 = look_bias_5min_list,
+    legend1 = 'Look Algorithm',
     data2 = edf_bias_5min_list,
+    legend2 = 'Scan-EDF Algorithm',
     title = 'Bias between requesting waiting time and actual waiting time',
     xlabel = 'count',
     ylabel = 'bias',
