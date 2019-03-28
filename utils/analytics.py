@@ -16,14 +16,16 @@ def get_histogram(data, title, xlabel, ylabel, filename, x_min, x_max, bins):
     plt.savefig(f"image/{ filename }.png")
     plt.close()
 
-def pyramid_plot(y, data1, data1label, data2, data1labe2):
-    fig, axes = plt.subplots(ncols=2, sharey=True)
-#     data1 = np.arange(data1.size)
-#     data2 = np.arange(data2.size)
-    axes[0].barh(y, data1, align='center', color='red')
-    axes[0].set(title = data1label)
-    axes[1].barh(y, data2, align='center', color='blue')
-    axes[1].set(title = data1labe2)
-    axes[0].invert_xaxis()
-    axes[0].yaxis.tick_right()
-    plt.show()
+def get_multibarhplot(data1, legend1, data2, legend2, title, xlabel, ylabel, filename, bin_tags):
+    index = np.arange(len(bin_tags))
+    bin_width = 0.5
+    plt.title(title)
+    p1 = plt.barh(index, data1, bin_width, color = 'C0')
+    p2 = plt.barh(index + bin_width, data2, bin_width, color = 'C1')
+    plt.yticks(index + 1.5 * bin_width, bin_tags)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.legend((p1[0], p2[0]), (legend1, legend2))
+    plt.savefig(f"image/{ filename }.png")
+    plt.close()

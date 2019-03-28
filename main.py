@@ -3,7 +3,7 @@ from utils.elevator import Elevator
 from algorithms.look import look
 from algorithms.scan_edf import scan_edf
 import utils.analytics as aly
-import time
+from itertools import groupby
 
 elevator1 = Elevator(look)
 elevator2 = Elevator(scan_edf)
@@ -12,8 +12,10 @@ look_wait_time_list = []
 edf_wait_time_list = []
 look_wait_time_mean_list = []
 edf_wait_time_mean_list = []
+look_bias_list = []
+edf_bias_list = []
 
-ROUND = 500
+ROUND = 100
 
 for i in range(ROUND):
     input_data = get_input()
@@ -24,40 +26,14 @@ for i in range(ROUND):
     look_wait_time_list += look_wait_time
     look_wait_time_mean = int(aly.get_average(look_wait_time))
     look_wait_time_mean_list.append(look_wait_time_mean)
-    #print(f'Average waiting time with LOOK: { look_wait_time_mean }')
+    look_bias_list += [x['bias'] for x in elevator1.output_data]
 
     edf_wait_time = [x['waiting_time'] for x in elevator2.output_data]
     edf_wait_time_list += edf_wait_time
     edf_wait_time_mean = int(aly.get_average(edf_wait_time))
     edf_wait_time_mean_list.append(edf_wait_time_mean)
-    #print(f'Average waiting time with SCAN-EDF: { edf_wait_time_mean }')
+    edf_bias_list += [x['bias'] for x in elevator2.output_data]
 
-    """
-    x_max = max([max(look_wait_time), max(edf_wait_time)])
-    aly.get_histogram(
-        data = look_wait_time,
-        title = f'Waiting time distribution with LOOK, average = { look_wait_time_mean }',
-        xlabel = 'waiting time',
-        ylabel = 'count',
-        filename = f'look{ i + 1 }',
-        x_min = 0,
-        x_max = x_max,
-        bins = x_max // 60
-    )
-
-    aly.get_histogram(
-        data = edf_wait_time,
-        title = f'Waiting time distribution with SCAN-EDF, average = { edf_wait_time_mean }',
-        xlabel = 'waiting time',
-        ylabel = 'count',
-        filename = f'scan_edf{ i + 1 }',
-        x_min = 0,
-        x_max = x_max,
-        bins = x_max // 60
-    )
-    """
-
-#print('--------------')
 print(f'Mean of average waiting time with LOOK: { aly.get_average(look_wait_time_mean_list) }')
 print(f'Standard deviation of average waiting time with LOOK: { aly.get_std(look_wait_time_mean_list) }')
 print(f'Mean of average waiting time with SCAN-EDF: { int(aly.get_average(edf_wait_time_mean_list)) }')
@@ -83,4 +59,33 @@ aly.get_histogram(
     x_min = 0,
     x_max = max(edf_wait_time_list),
     bins = max(look_wait_time_list) // 60
+)
+max_bias = max([max(edf_bias_list), max(look_bias_list)])
+min_bias = min([min(edf_bias_list), min(look_bias_list)])
+bin_tags = [f'{ 5 * i } ~ {5 * (i + 1)}' for i in sorted(list(set(range(min_bias // 300, max_bias // 300 + 1))))]
+
+look_bias_list = [x // 300 for x in look_bias_list]
+edf_bias_list = [x // 300 for x in edf_bias_list]
+
+look_bias_5min_list = list({ x: look_bias_list.count(x) for x in look_bias_list }.values())
+look_bias_5min_list.reverse()
+edf_bias_5min_list = list({ x: edf_bias_list.count(x) for x in edf_bias_list }.values())
+edf_bias_5min_list.reverse()
+
+size_diff = len(look_bias_5min_list) - len(edf_bias_5min_list)
+if size_diff > 0:
+    edf_bias_5min_list += [0] * size_diff
+else:
+    look_bias_5min_list += [0] * size_diff
+
+aly.get_multibarhplot(
+    data1 = look_bias_5min_list,
+    legend1 = 'Look Algorithm',
+    data2 = edf_bias_5min_list,
+    legend2 = 'Scan-EDF Algorithm',
+    title = 'Bias between requesting waiting time and actual waiting time',
+    xlabel = 'count',
+    ylabel = 'bias',
+    filename = 'bias_distribution',
+    bin_tags = bin_tags
 )
